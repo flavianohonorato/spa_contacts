@@ -1,5 +1,8 @@
 # app_contacts
 
+## About
+SPA created to consume this api ([visit here](https://github.com/flavianohonorato/api_contacts))
+
 ## Project setup
 ```
 npm install
