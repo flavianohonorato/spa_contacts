@@ -25,10 +25,23 @@
             >
               <i class="now-ui-icons ui-1_zoom-bold"></i>
             </router-link>
+            <router-link
+              :to="{name: 'contacts.edit', params: {id: contact.id }}"
+              class="btn btn-warning btn-round btn-sm my-0 btn-icon"
+            >
+              <i class="now-ui-icons shopping_tag-content"></i>
+            </router-link>
+            <button
+              @click="deleteRegistry(contact)"
+              class="btn btn-danger btn-round btn-sm my-0 btn-icon"
+            >
+              <i class="now-ui-icons ui-1_simple-remove"></i>
+            </button>
           </td>
         </tr>
       </template>
     </v-table>
+
     <ul class="pagination justify-content-center" v-show="!loading" v-if="pages.lenght">
       <li class="page-item">
         <a
@@ -103,6 +116,29 @@ export default {
           this.loader = true
         })
         .catch((error) => console.log('error', error))
+    },
+    deleteRegistry (data) {
+      const title = `${data.name}`
+      this.$swal({
+        title: 'Você tem certeza?',
+        text: `Você tem certeza que quer remover ${title}?`,
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Confirmar!',
+        cancelButtonText: 'Cancelar',
+        showCloseButton: true,
+        showLoaderOnConfirm: true,
+        confirmButtonColor: '#ec3233'
+      }).then((result) => {
+        const id = data.id
+        if (result.isConfirmed) {
+          this.$store.dispatch('contacts/remove', id)
+            .then((response) => {
+              this.$store.dispatch('contacts/all', this.currentPage)
+            })
+            .catch((error) => console.log('error', error))
+        }
+      })
     }
   },
   mounted () {

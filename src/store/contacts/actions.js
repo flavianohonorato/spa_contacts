@@ -33,8 +33,6 @@ export async function update (context, options) {
 }
 
 // remove
-export function remove (context, options) {
-  const { id } = options
-
+export function remove (context, id) {
   return axios.delete(`/api/v1/contacts/${id}`)
 }
